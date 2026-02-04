@@ -58,3 +58,70 @@ function displayMenu(items) {
 
 // Initial load
 displayMenu(menuItems);
+
+// ============================
+// ORDER MANAGEMENT
+// ============================
+
+// Get the Current Order card container
+const orderContainer = document.getElementById("order-container");
+
+// Variables to store orders and total price
+let currentOrder = [];
+let totalPrice = 0;
+
+// Function to add an item to the order
+function addOrder(item, price) {
+  currentOrder.push({ item, price });
+  totalPrice += price;
+  renderOrder();
+}
+
+// Function to render the current order
+function renderOrder() {
+  orderContainer.innerHTML = ""; // Clear previous content
+
+  if (currentOrder.length === 0) {
+    orderContainer.innerHTML = `<p class="text-muted">No items selected.</p>`;
+    return;
+  }
+
+  const ul = document.createElement("ul");
+  ul.className = "list-group";
+
+  currentOrder.forEach(order => {
+    const li = document.createElement("li");
+    li.className = "list-group-item d-flex justify-content-between";
+    li.textContent = order.item;
+
+    const span = document.createElement("span");
+    span.textContent = `₱${order.price}`;
+    li.appendChild(span);
+
+    ul.appendChild(li);
+  });
+
+  orderContainer.appendChild(ul);
+
+  // Total price display
+  const totalDiv = document.createElement("p");
+  totalDiv.className = "mt-2 fw-bold";
+  totalDiv.textContent = `Total: ₱${totalPrice}`;
+  orderContainer.appendChild(totalDiv);
+}
+
+// ============================
+// CONNECT MENU ITEMS TO ORDERS
+// ============================
+
+// Select all menu item divs in the menu container
+const menuContainerDivs = document.getElementById("menu-container").querySelectorAll("div");
+
+menuContainerDivs.forEach((div, index) => {
+  div.style.cursor = "pointer"; // Make it look clickable
+  div.addEventListener("click", () => {
+    const item = menuItems[index];
+    addOrder(item.name, item.price);
+  });
+});
+
