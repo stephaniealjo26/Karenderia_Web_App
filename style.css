@@ -1,0 +1,83 @@
+/* ===============================
+   GENERAL STYLES
+   =============================== */
+
+body {
+    font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.navbar-brand {
+    font-weight: 600;
+    letter-spacing: 0.5px;
+}
+
+/* ===============================
+   CARD STYLES
+   =============================== */
+
+.card {
+    border-radius: 10px;
+}
+
+.card-header {
+    font-weight: 600;
+}
+
+/* ===============================
+   MENU LIST STYLES
+   =============================== */
+
+#menu-container>div:hover {
+    background-color: #f8f9fa;
+    cursor: pointer;
+}
+
+#menu-container strong {
+    font-size: 0.95rem;
+}
+
+/* ===============================
+   DAILY SALES SUMMARY
+   =============================== */
+
+#total-orders,
+#total-sales {
+    font-size: 1.4rem;
+    font-weight: 700;
+}
+
+#total-sales {
+    color: #198754;
+    /* Bootstrap success green */
+}
+
+/* ===============================
+   ORDERS LIST
+   =============================== */
+
+#orders-list .list-group-item {
+    font-size: 0.95rem;
+}
+
+/* ===============================
+   FORM ELEMENTS
+   =============================== */
+
+select.form-select {
+    cursor: pointer;
+}
+
+/* ===============================
+   SMALL SCREENS
+   =============================== */
+
+@media (max-width: 768px) {
+    .card-body p {
+        font-size: 0.95rem;
+    }
+
+    #total-orders,
+    #total-sales {
+        font-size: 1.2rem;
+    }
+}
