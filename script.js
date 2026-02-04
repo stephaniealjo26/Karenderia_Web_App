@@ -1,3 +1,5 @@
+
+const menuItems = [
 // ===============================
 // STUDENT 2 – MENU MANAGEMENT
 // ===============================
@@ -11,6 +13,9 @@ const menuItems = [
     { name: "Tinola", price: 65, category: "ulam" },
     { name: "Kare-Kare", price: 80, category: "ulam" },
     { name: "Bistek Tagalog", price: 75, category: "ulam" },
+
+    { name: "Plain Rice", price: 15, category: "rice" },
+    { name: "Fried Rice", price: 25, category: "rice" },
 
     // Rice
     { name: "Plain Rice", price: 15, category: "rice" },
@@ -56,6 +61,7 @@ function displayMenu(items) {
     menuCount.textContent = items.length;
 }
 
+displayMenu(menuItems);
 // Initial load
 displayMenu(menuItems);
 
