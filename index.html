@@ -3,68 +3,156 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Karenderia Web App</title>
+    <title>Karenderia - Menu</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="style.css">
+    <style>
+        /* Modern aesthetic updates */
+        body { background-color: #f8f9fa; }
+        
+        .menu-items .card {
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            border: none;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+        }
+        
+        .menu-items .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 15px rgba(0,0,0,0.1);
+        }
+
+        .menu-category-title {
+            border-bottom: 3px solid #198754;
+            display: inline-block;
+            padding-bottom: 5px;
+            margin-bottom: 25px;
+            color: #198754;
+            font-weight: bold;
+        }
+
+        .footer {
+            background-color: #212529;
+            color: white;
+            padding: 40px 0;
+            margin-top: 50px;
+        }
+
+        #backToTop {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            display: none;
+            z-index: 100;
+        }
+    </style>
 </head>
-<body class="bg-light">
-
-    <nav class="navbar navbar-dark bg-dark mb-4">
-        <div class="container">
-            <span class="navbar-brand mb-0 h1">🍲 Local Karenderia System</span>
+<body>
+    <div class="container py-3 d-flex justify-content-between align-items-center">
+        <div class="logo-area">
+            <h1 class="mb-0 fw-bold text-success">VEGAN</h1>
+            <span class="text-muted text-uppercase small ls-2">Restaurant</span>
         </div>
-    </nav>
+        <nav class="navbar navbar-expand">
+            <div class="navbar-nav">
+                <a class="nav-link text-dark" href="index.html">Home</a>
+                <a class="nav-link text-success fw-bold" href="menu.html">Menu</a>
+                <a class="nav-link text-dark" href="order.html">Orders</a>
+                <a class="nav-link text-dark" href="sales.html">Sales</a>
+            </div>
+        </nav>
+    </div>
 
-    <div class="container">
+    <div class="container mt-5">
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <h2 class="fw-bold">Our Fresh Menu</h2>
+            <div class="badge bg-success rounded-pill px-3 py-2">Total Items: <span id="menu-count">0</span></div>
+        </div>
+
         <div class="row g-4">
-            <div class="col-md-6">
-                <div class="card shadow-sm h-100">
-                    <div class="card-header bg-primary text-white">Menu List</div>
-                    <div id="menu-container" class="card-body">
-                        <p class="text-muted italic">Menu loading...</p>
+            <div class="col-md-4">
+                <h4 class="menu-category-title">Ulam (Main Dishes)</h4>
+                <div id="ulam-container" class="menu-items">
+                    <div class="card mb-3">
+                        <img src="https://images.unsplash.com/photo-1546069901-ba9599a7e63c?auto=format&fit=crop&w=400&q=80" class="card-img-top" alt="Grilled Tofu">
+                        <div class="card-body">
+                            <h5 class="card-title">Grilled Tofu</h5>
+                            <p class="card-text text-muted">Delicious marinated tofu with garden vegetables.</p>
+                            <span class="fw-bold text-success">₱150.00</span>
+                        </div>
+                    </div>
+                    <div class="card mb-3">
+                        <img src="https://cdn.tasteatlas.com/images/dishes/d5341266285b41e3bc49f9b18795adf9.jpg" class="card-img-top" alt="Vegetable Curry">
+                        <div class="card-body">
+                            <h5 class="card-title">Adobo</h5>
+                            <span class="fw-bold text-success">₱180.00</span>
+                        </div>
                     </div>
                 </div>
             </div>
-<div class="col-md-6">
-    <div class="card shadow-sm h-100">
-        <div class="card-header bg-primary text-white">
-            Menu List
-        </div>
 
-        <div class="card-body">
-           <div class="col-md-6">
-    <div class="card shadow-sm h-100">
-        <div class="card-header bg-primary text-white">
-            Menu List
-        </div>
-
-        <div class="card-body">
-            <!-- Member 2: Menu Controls -->
-            <div class="mb-3">
-                <label class="form-label fw-bold">Food Category</label>
-                <select id="category-filter" class="form-select form-select-sm">
-                    <option value="all">All</option>
-                    <option value="ulam">Ulam</option>
-                    <option value="snacks">Snacks</option>
-                    <option value="rice">Rice</option>
-                </select>
+            <div class="col-md-4">
+                <h4 class="menu-category-title">Rice & Snacks</h4>
+                <div id="rice-snacks-container" class="menu-items">
+                    <div class="card mb-3">
+                        <img src="https://www.familyfoodonthetable.com/wp-content/uploads/2024/02/Brown-rice-square-1200.jpg" class="card-img-top" alt="Rice Bowl">
+                        <div class="card-body">
+                            <h5 class="card-title">Brown Rice Bowl</h5>
+                            <p class="card-text text-muted">High-fiber brown rice with toasted sesame.</p>
+                            <span class="fw-bold text-success">₱45.00</span>
+                        </div>
+                    </div>
+                    <div class="card mb-3">
+                        <img src="https://images.unsplash.com/photo-1606787366850-de6330128bfc?auto=format&fit=crop&w=400&q=80" class="card-img-top" alt="Snack">
+                        <div class="card-body">
+                            <h5 class="card-title">Vegan Snack Plate</h5>
+                            <p class="card-text text-muted">Hummus, carrots, and baked pita chips.</p>
+                            <span class="fw-bold text-success">₱120.00</span>
+                        </div>
+                    </div>
+                </div>
             </div>
 
-            <p class="text-muted mb-2">
-                Available Items: <strong><span id="menu-count">0</span></strong>
-            </p>
-
-        
-            <div id="menu-container">
-                <p class="text-muted fst-italic">Menu loading...</p>
+            <div class="col-md-4">
+                <h4 class="menu-category-title">Cold Drinks</h4>
+                <div id="drinks-container" class="menu-items">
+                    <div class="card mb-3">
+                        <img src="https://images.unsplash.com/photo-1610970881699-44a558dc9797?auto=format&fit=crop&w=400&q=80" class="card-img-top" alt="Green Smoothie">
+                        <div class="card-body">
+                            <h5 class="card-title">Green Smoothie</h5>
+                            <p class="card-text text-muted">Refreshing spinach, mango, and banana.</p>
+                            <span class="fw-bold text-success">₱95.00</span>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
-</div>
 
-    </div>
+    <footer class="footer">
+        <div class="container text-center">
+            <h5>Karenderia Vegan Restaurant</h5>
+            <p class="small text-secondary">Serving 100% plant-based goodness since 2024.</p>
+            <hr class="bg-secondary">
+            <p class="mb-0">&copy; 2026 Vegan Kitchen. All rights reserved.</p>
+        </div>
+    </footer>
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="script.js"></script>
+    <button id="backToTop" class="btn btn-success rounded-circle shadow">↑</button>
+
+    <script>
+        // Update the item count badge automatically
+        document.addEventListener('DOMContentLoaded', () => {
+            const itemCount = document.querySelectorAll('.menu-items .card').length;
+            document.getElementById('menu-count').innerText = itemCount;
+
+            // Scroll to top logic
+            const topBtn = document.getElementById('backToTop');
+            window.onscroll = () => {
+                topBtn.style.display = window.scrollY > 300 ? 'block' : 'none';
+            };
+            topBtn.onclick = () => window.scrollTo({top: 0, behavior: 'smooth'});
+        });
+    </script>
 </body>
 </html>

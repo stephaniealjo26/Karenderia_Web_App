@@ -1,133 +1,70 @@
-
 const menuItems = [
-// ===============================
-// STUDENT 2 – MENU MANAGEMENT
-// ===============================
-
-// Expanded menu with categories
-const menuItems = [
-    // Ulam
     { name: "Chicken Adobo", price: 50, category: "ulam" },
     { name: "Pork Adobo", price: 60, category: "ulam" },
     { name: "Sinigang na Baboy", price: 70, category: "ulam" },
-    { name: "Tinola", price: 65, category: "ulam" },
-    { name: "Kare-Kare", price: 80, category: "ulam" },
-    { name: "Bistek Tagalog", price: 75, category: "ulam" },
-
     { name: "Plain Rice", price: 15, category: "rice" },
     { name: "Fried Rice", price: 25, category: "rice" },
-
-    // Rice
-    { name: "Plain Rice", price: 15, category: "rice" },
-    { name: "Fried Rice", price: 25, category: "rice" },
-
-    // Snacks / Extras
     { name: "Lumpiang Shanghai", price: 10, category: "snacks" },
-    { name: "Tokwa't Baboy", price: 45, category: "snacks" },
-    { name: "Chopsuey", price: 50, category: "snacks" },
-
-    // Drinks
     { name: "Iced Tea", price: 20, category: "drinks" },
     { name: "Soft Drinks", price: 25, category: "drinks" }
 ];
 
-const menuContainer = document.getElementById("menu-container");
-const menuCount = document.getElementById("menu-count");
+let currentOrder = JSON.parse(localStorage.getItem("activeOrder")) || [];
 
-// Render menu items
-function displayMenu(items) {
-    menuContainer.innerHTML = "";
+function displayMenu() {
+    const ulamCont = document.getElementById("ulam-container");
+    const riceSnackCont = document.getElementById("rice-snacks-container");
+    const drinksCont = document.getElementById("drinks-container");
+    if(!ulamCont) return;
 
-    items.forEach((item, index) => {
-        const menuItem = document.createElement("div");
-        menuItem.className =
-            "d-flex justify-content-between align-items-center border rounded p-2 mb-2";
-
-        menuItem.innerHTML = `
-            <div>
-                <strong>${item.name}</strong><br>
-                <small class="text-muted">
-                    ₱${item.price} • ${item.category.toUpperCase()}
-                </small>
-            </div>
-            <button class="btn btn-sm btn-primary" onclick="addToOrder(${index})">
-                Add
-            </button>
-        `;
-
-        menuContainer.appendChild(menuItem);
+    menuItems.forEach((item, index) => {
+        const html = `
+            <div class="d-flex justify-content-between align-items-center border-bottom py-3 mb-2">
+                <div><h6 class="mb-0 fw-bold">${item.name}</h6><small class="text-muted text-uppercase">${item.category}</small></div>
+                <div class="d-flex align-items-center">
+                    <span class="price-text me-3">₱${item.price}</span>
+                    <button class="btn btn-sm btn-outline-success" onclick="addToTray(${index})">+</button>
+                </div>
+            </div>`;
+        if (item.category === "ulam") ulamCont.innerHTML += html;
+        else if (item.category === "rice" || item.category === "snacks") riceSnackCont.innerHTML += html;
+        else if (item.category === "drinks") drinksCont.innerHTML += html;
     });
-
-    menuCount.textContent = items.length;
+    document.getElementById("menu-count").innerText = menuItems.length;
 }
 
-displayMenu(menuItems);
-// Initial load
-displayMenu(menuItems);
-
-// ============================
-// ORDER MANAGEMENT
-// ============================
-
-// Get the Current Order card container
-const orderContainer = document.getElementById("order-container");
-
-// Variables to store orders and total price
-let currentOrder = [];
-let totalPrice = 0;
-
-// Function to add an item to the order
-function addOrder(item, price) {
-  currentOrder.push({ item, price });
-  totalPrice += price;
-  renderOrder();
+function addToTray(index) {
+    currentOrder.push(menuItems[index]);
+    localStorage.setItem("activeOrder", JSON.stringify(currentOrder));
+    alert(menuItems[index].name + " added!");
 }
 
-// Function to render the current order
-function renderOrder() {
-  orderContainer.innerHTML = ""; // Clear previous content
-
-  if (currentOrder.length === 0) {
-    orderContainer.innerHTML = `<p class="text-muted">No items selected.</p>`;
-    return;
-  }
-
-  const ul = document.createElement("ul");
-  ul.className = "list-group";
-
-  currentOrder.forEach(order => {
-    const li = document.createElement("li");
-    li.className = "list-group-item d-flex justify-content-between";
-    li.textContent = order.item;
-
-    const span = document.createElement("span");
-    span.textContent = `₱${order.price}`;
-    li.appendChild(span);
-
-    ul.appendChild(li);
-  });
-
-  orderContainer.appendChild(ul);
-
-  // Total price display
-  const totalDiv = document.createElement("p");
-  totalDiv.className = "mt-2 fw-bold";
-  totalDiv.textContent = `Total: ₱${totalPrice}`;
-  orderContainer.appendChild(totalDiv);
+function updateOrderUI() {
+    const list = document.getElementById("order-list");
+    if (!list) return;
+    list.innerHTML = currentOrder.map(item => `<div class="d-flex justify-content-between py-2 border-bottom"><span>${item.name}</span><b>₱${item.price}</b></div>`).join("");
+    document.getElementById("total-price").innerText = currentOrder.reduce((s, i) => s + i.price, 0);
 }
 
-// ============================
-// CONNECT MENU ITEMS TO ORDERS
-// ============================
+function confirmOrder() {
+    if (currentOrder.length === 0) return alert("Tray empty!");
+    let sales = JSON.parse(localStorage.getItem("salesData")) || { total: 0, count: 0 };
+    sales.total += currentOrder.reduce((s, i) => s + i.price, 0);
+    sales.count += 1;
+    localStorage.setItem("salesData", JSON.stringify(sales));
+    localStorage.removeItem("activeOrder");
+    alert("Success!");
+    window.location.href = "sales.html";
+}
 
-// Select all menu item divs in the menu container
-const menuContainerDivs = document.getElementById("menu-container").querySelectorAll("div");
+function resetSales() { localStorage.removeItem("salesData"); location.reload(); }
 
-menuContainerDivs.forEach((div, index) => {
-  div.style.cursor = "pointer"; // Make it look clickable
-  div.addEventListener("click", () => {
-    const item = menuItems[index];
-    addOrder(item.name, item.price);
-  });
+document.addEventListener("DOMContentLoaded", () => {
+    displayMenu();
+    updateOrderUI();
+    if(document.getElementById("sales-total")) {
+        const s = JSON.parse(localStorage.getItem("salesData")) || { total: 0, count: 0 };
+        document.getElementById("sales-total").innerText = s.total;
+        document.getElementById("sales-count").innerText = s.count;
+    }
 });
-
